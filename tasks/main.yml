@@ -15,6 +15,10 @@
       - loggly.com.crt
       - loggly_full.crt
       - sf_bundle.crt
+  notify:
+    - restart rsyslog
+  tags: rsyslog
 
-- name: Restart rsyslog service
-  service: name=rsyslog state=restarted
+- name: Check that rsyslog is running
+  service: name=rsyslog state=running enabled=yes
+  tags: rsyslog
