@@ -1,6 +1,6 @@
 ---
 - name: Add Nginx Rsyslog configuration file
-  template: src="loggly_configuration/{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
+  template: src="{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
     with_items:
       - 21-nginx-loggly.conf
       - 21-rails.conf
@@ -9,12 +9,20 @@
 - name: Create cerfiticates folder If It Does Not Exist
   file: path=/etc/rsyslog.d/keys/ca.d state=directory
 
-- name: Add certificates
-  template: src="loggly_configuration/{{ item }}" dest="/etc/rsyslog.d/keys/ca.d/{{ item }}" owner=root group=root
-    with_items:
-      - loggly.com.crt
-      - loggly_full.crt
-      - sf_bundle.crt
+- name: Get Certificates From Loggly
+  command: curl -O https://logdog.loggly.com/media/loggly.com.crt
+    args:
+      chdir: /etc/rsyslog.d/keys/ca.d
+
+- name: Get Bundled Cert
+  command: curl -O https://certs.secureserver.net/repository/sf_bundle.crt
+    args:
+      chdir: /etc/rsyslog.d/keys/ca.d
+
+- name: Concatinate Certs together
+  shell: cat {sf_bundle.crt,loggly.com.crt} > loggly_full.crt
+    args:
+      chdir: /etc/rsyslog.d/keys/ca.d
   notify:
     - restart rsyslog
   tags: rsyslog
