@@ -1,0 +1,20 @@
+---
+- name: Add Nginx Rsyslog configuration file
+  template: src="loggly_configuration/{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
+    with_items:
+      - 21-nginx-loggly.conf
+      - 21-rails.conf
+      - 22-loggly.conf
+
+- name: Create cerfiticates folder If It Does Not Exist
+  file: path=/etc/rsyslog.d/keys/ca.d state=directory
+
+- name: Add certificates
+  template: src="loggly_configuration/{{ item }}" dest="/etc/rsyslog.d/keys/ca.d/{{ item }}" owner=root group=root
+    with_items:
+      - loggly.com.crt
+      - loggly_full.crt
+      - sf_bundle.crt
+
+- name: Restart rsyslog service
+  service: name=rsyslog state=restarted
