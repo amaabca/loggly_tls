@@ -1,4 +1,25 @@
 ---
+- name: Remove The Loggly Config File If It Exists
+  file: path=/etc/rsyslog.d/22-loggly.conf state=absent
+
+- name: Get Configuration For The Rsyslog Daemon
+  get_url: url=https://www.loggly.com/install/configure-linux.sh dest=/home/ubuntu/configure-linux.sh
+
+- name: Change The Loggly Username
+  lineinfile: dest=/home/ubuntu/configure-linux.sh regexp="^LOGGLY_USERNAME=$" line=LOGGLY_USERNAME=adam
+
+- name: Change The Loggly Password
+  lineinfile: dest=/home/ubuntu/configure-linux.sh regexp="^LOGGLY_PASSWORD=$" line=LOGGLY_PASSWORD="{{ LOGGLY_PASSWORD }}"
+
+- name: Change The Loggly Token
+  lineinfile: dest=/home/ubuntu/configure-linux.sh regexp="^LOGGLY_AUTH_TOKEN=$" line=LOGGLY_AUTH_TOKEN="{{ LOGGLY_TOKEN }}"
+
+- name: Change The Port Loggly Uses
+  lineinfile: dest=/home/ubuntu/configure-linux.sh regexp=LOGGLY_SYSLOG_PORT=514 line=LOGGLY_SYSLOG_PORT=6514
+
+- name: Configure the Rsyslog Daemon
+  command: bash /home/ubuntu/configure-linux.sh -a ama
+
 - name: Add Nginx Rsyslog configuration file
   template: src="{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
   with_items:
