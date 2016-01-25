@@ -10,19 +10,15 @@
   file: path=/etc/rsyslog.d/keys/ca.d state=directory
 
 - name: Get Certificates From Loggly
-  command: curl -O https://logdog.loggly.com/media/loggly.com.crt
-  args:
-    chdir: /etc/rsyslog.d/keys/ca.d
+  get_url: url=https://logdog.loggly.com/media/loggly.com.crt dest=/etc/rsyslog.d/keys/ca.d/loggly.com.crt
 
-- name: Get Bundled Cert
-  command: curl -O https://certs.secureserver.net/repository/sf_bundle.crt
-  args:
-    chdir: /etc/rsyslog.d/keys/ca.d
+- name: Get Certificates From Loggly
+  get_url: url=https://certs.secureserver.net/repository/sf_bundle.crt dest=/etc/rsyslog.d/keys/ca.d/sf_bundle.crt
 
 - name: Concatenate Certs together
-  shell: cat {sf_bundle.crt,loggly.com.crt} > loggly_full.crt
+  shell: cat sf_bundle.crt loggly.com.crt > loggly_full.crt
   args:
-    chdir: /etc/rsyslog.d/keys/ca.d
+    chdir: /etc/rsyslog.d/keys/ca.d/
   notify:
     - restart rsyslog
   tags: rsyslog
