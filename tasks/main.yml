@@ -2,6 +2,9 @@
 - name: Remove The Loggly Config File If It Exists
   file: path=/etc/rsyslog.d/22-loggly.conf state=absent
 
+- name: Remove The Configuration Shell Script If It Exists
+  file: path=/home/ubuntu/configure-linux.sh state=absent
+
 - name: Get Configuration For The Rsyslog Daemon
   get_url: url=https://www.loggly.com/install/configure-linux.sh dest=/home/ubuntu/configure-linux.sh
 
