@@ -1,19 +1,4 @@
 ---
-- name: Remove The Loggly Config File If It Exists
-  file: path=/etc/rsyslog.d/22-loggly.conf state=absent
-
-- name: Remove The Configuration Shell Script If It Exists
-  file: path=/home/ubuntu/configure-linux.sh state=absent
-
-- name: Get Configuration For The Rsyslog Daemon
-  get_url: url=https://www.loggly.com/install/configure-linux.sh dest=/home/ubuntu/configure-linux.sh
-
-- name: Make the configuration file executable
-  command: chmod +x /home/ubuntu/configure-linux.sh
-
-- name: Configure the Rsyslog Daemon
-  shell: /home/ubuntu/configure-linux.sh -a ama -u adam -t {{ LOGGLY_TOKEN }} -p {{ LOGGLY_PASSWORD }}
-
 - name: Add Nginx Rsyslog configuration file
   template: src="{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
   with_items:
