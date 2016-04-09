@@ -1,3 +1,4 @@
 ---
-- name: restart rsyslog
+# handlers file for loggly-client
+- name: restart_rsyslog
   service: name=rsyslog state=restarted

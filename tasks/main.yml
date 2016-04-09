@@ -1,28 +1,25 @@
 ---
+- apt: name=rsyslog-gnutls update_cache=yes
+
+- name: Create cerfiticates folder If It Does Not Exist
+  file: path={{ loggly.certificate_dest }} state=directory
+
+- name: Install loggly certificate bundle once https://en.wikipedia.org/wiki/Server_Name_Indication is supported
+  get_url: url={{ loggly.certificate_url }} dest={{ loggly.certificate_dest }}{{ loggly.certificate_file }}
+  ignore_errors: yes
+  
+- name: Use wget cause Python 2.7.6 doesn't support https://en.wikipedia.org/wiki/Server_Name_Indication
+  command: wget -O {{ loggly.certificate_dest }}{{ loggly.certificate_file }} {{ loggly.certificate_url }}
+  notify:
+    - restart_rsyslog
+  
 - name: Add Nginx Rsyslog configuration file
   template: src="{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
   with_items:
-    - 21-nginx-loggly.conf
-    - 21-rails.conf
     - 22-loggly.conf
-
-- name: Create cerfiticates folder If It Does Not Exist
-  file: path=/etc/rsyslog.d/keys/ca.d state=directory
-
-- name: Get Certificates From Loggly
-  get_url: url=https://logdog.loggly.com/media/loggly.com.crt dest=/etc/rsyslog.d/keys/ca.d/loggly.com.crt
-
-- name: Get Certificates From Loggly
-  get_url: url=https://certs.secureserver.net/repository/sf_bundle.crt dest=/etc/rsyslog.d/keys/ca.d/sf_bundle.crt
-
-- name: Concatenate Certs together
-  shell: cat sf_bundle.crt loggly.com.crt > loggly_full.crt
-  args:
-    chdir: /etc/rsyslog.d/keys/ca.d/
-  notify:
-    - restart rsyslog
-  tags: rsyslog
 
 - name: Check that rsyslog is running
   service: name=rsyslog state=running enabled=yes
   tags: rsyslog
+  notify:
+    - restart_rsyslog
