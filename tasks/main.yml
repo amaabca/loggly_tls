@@ -12,14 +12,10 @@
   command: wget -O {{ loggly.certificate_dest }}{{ loggly.certificate_file }} {{ loggly.certificate_url }}
   notify:
     - restart_rsyslog
-  
-- name: Add Nginx Rsyslog configuration file
+
+- name: Add Rsyslog configuration file
   template: src="{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
   with_items:
     - 22-loggly.conf
-
-- name: Check that rsyslog is running
-  service: name=rsyslog state=running enabled=yes
-  tags: rsyslog
   notify:
-    - restart_rsyslog
+    - restart_rsyslog    
