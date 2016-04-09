@@ -1,3 +1,6 @@
 ---
-# defaults file for loggly-client
-
+loggly:
+  token: "{{ secrets.loggly.token }}"
+  certificate_url: https://logdog.loggly.com/media/logs-01.loggly.com_sha12.crt
+  certificate_file: logs-01.loggly.com_sha12.crt
+  certificate_dest: /etc/rsyslog.d/keys/ca.d/

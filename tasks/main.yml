@@ -1,5 +1,11 @@
 ---
-- apt: name=rsyslog-gnutls update_cache=yes
+- fail: msg="This role requires 'loggly.token'"
+  when: loggly.token | trim == ''
+  
+- apt: name={{ item }} update_cache=yes cache_valid_time=3600
+  with_items:
+    - rsyslog-gnutls
+    - wget
 
 - name: Create cerfiticates folder If It Does Not Exist
   file: path={{ loggly.certificate_dest }} state=directory
