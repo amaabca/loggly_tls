@@ -10,8 +10,11 @@ Before running you will have to set up an account at https://loggly.com and add 
 
 Role Variables
 --------------
+Store the following in [a vault file](http://docs.ansible.com/ansible/playbooks_vault.html):
 
-LOGGLY TOKEN: The token associated with your loggly account
+    secrets:
+        loggly:
+          token: yourlogglytokenhere
 
 Dependencies
 ------------
@@ -21,11 +24,13 @@ All configuration was done with rsyslogd 7.4.4.
 Example Playbook
 ----------------
 
+    ansible-playbook tests/test.yml -i your_inventory_file
+
 How to include this role:
 
     - hosts: servers
       roles:
-         - loggly-client
+         - loggly_tls
 
 License
 -------

@@ -1,5 +1,9 @@
 ---
-- hosts: localhost
+- hosts: all
   remote_user: root
+  vars:
+    secrets:
+      loggly:
+        token: yourlogglytokenhere
   roles:
-    - loggly-client
+    - loggly_tls
