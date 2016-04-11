@@ -1,7 +1,12 @@
 ---
 - fail: msg="This role requires 'loggly.token'"
   when: loggly.token | trim == ''
-  
+
+# Only supported by Ubuntu targets - will provide support for $InputFileName wilcard paths
+# - apt_repository: repo='{{ loggly.rsylog_ppa }}'
+#- debug: msg="PPA is {{ loggly.rsylog_ppa }}"
+#  when: loggly.rsylog_ppa
+
 - apt: name={{ item }} update_cache=yes cache_valid_time=3600
   with_items:
     - rsyslog-gnutls
@@ -23,5 +28,7 @@
   template: src="{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
   with_items:
     - 22-loggly.conf
+    - 21-nginx-loggly.conf
+    - 21-rails.conf
   notify:
-    - restart_rsyslog    
+    - restart_rsyslog
