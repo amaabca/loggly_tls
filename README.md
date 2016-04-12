@@ -12,9 +12,11 @@ Role Variables
 --------------
 Store the following in [a vault file](http://docs.ansible.com/ansible/playbooks_vault.html):
 
-    secrets:
-        loggly:
-          token: yourlogglytokenhere
+```yaml
+secrets:
+  loggly:
+    token: yourlogglytokenhere
+```
 
 Dependencies
 ------------
@@ -24,13 +26,17 @@ All configuration was done with rsyslogd 7.4.4.
 Example Playbook
 ----------------
 
-    ansible-playbook tests/test.yml -i your_inventory_file
+```bash
+ansible-playbook tests/test.yml -i your_inventory_file
+```
 
 How to include this role:
 
-    - hosts: servers
-      roles:
-         - loggly_tls
+```yaml
+- hosts: servers
+  roles:
+    - loggly_tls
+```
 
 License
 -------
