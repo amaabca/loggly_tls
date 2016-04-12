@@ -2,10 +2,9 @@
 - fail: msg="This role requires 'loggly.token'"
   when: loggly.token | trim == ''
 
-# Only supported by Ubuntu targets - will provide support for $InputFileName wilcard paths
-# - apt_repository: repo='{{ loggly.rsylog_ppa }}'
-#- debug: msg="PPA is {{ loggly.rsylog_ppa }}"
-#  when: loggly.rsylog_ppa
+- name: "Install rsylog 8 for $InputFileName wilcard paths"
+  apt_repository: repo="{{ loggly.rsylog_ppa }}"
+  when: ansible_distribution == "Ubuntu" and loggly.rsyslog_version|int > 7
 
 - apt: name={{ item }} update_cache=yes cache_valid_time=3600
   with_items:
