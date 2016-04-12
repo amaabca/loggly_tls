@@ -11,9 +11,9 @@ galaxy_info:
   - name: Ubuntu
     versions:
     - trusty
-
   galaxy_tags:
     - rsyslog
-    - nginx
-    - rails
     - loggly
+    - logging
+    - tls
+dependencies: []

@@ -1,28 +1,32 @@
 ---
-- name: Add Nginx Rsyslog configuration file
-  template: src="{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
+- fail: msg="This role requires 'loggly.token'"
+  when: loggly.token | trim == ''
+
+- name: "Install rsyslog 8 for $InputFileName wilcard paths"
+  apt_repository: repo="{{ loggly.rsyslog_ppa }}"
+  when: ansible_distribution == "Ubuntu" and loggly.rsyslog_version|int > 7
+
+- apt: name={{ item }} update_cache=yes cache_valid_time=3600
   with_items:
-    - 21-nginx-loggly.conf
-    - 21-rails.conf
-    - 22-loggly.conf
+    - rsyslog-gnutls
+    - wget
 
 - name: Create cerfiticates folder If It Does Not Exist
-  file: path=/etc/rsyslog.d/keys/ca.d state=directory
+  file: path={{ loggly.certificate_dest }} state=directory
 
-- name: Get Certificates From Loggly
-  get_url: url=https://logdog.loggly.com/media/loggly.com.crt dest=/etc/rsyslog.d/keys/ca.d/loggly.com.crt
+- name: Install loggly certificate bundle once https://en.wikipedia.org/wiki/Server_Name_Indication is supported
+  get_url: url={{ loggly.certificate_url }} dest={{ loggly.certificate_dest }}{{ loggly.certificate_file }}
+  ignore_errors: yes
 
-- name: Get Certificates From Loggly
-  get_url: url=https://certs.secureserver.net/repository/sf_bundle.crt dest=/etc/rsyslog.d/keys/ca.d/sf_bundle.crt
-
-- name: Concatenate Certs together
-  shell: cat sf_bundle.crt loggly.com.crt > loggly_full.crt
-  args:
-    chdir: /etc/rsyslog.d/keys/ca.d/
+- name: Use wget cause Python 2.7.6 doesn't support https://en.wikipedia.org/wiki/Server_Name_Indication
+  command: wget -O {{ loggly.certificate_dest }}{{ loggly.certificate_file }} {{ loggly.certificate_url }}
   notify:
-    - restart rsyslog
-  tags: rsyslog
+    - restart_rsyslog
 
-- name: Check that rsyslog is running
-  service: name=rsyslog state=running enabled=yes
-  tags: rsyslog
+- name: Add Rsyslog configuration file
+  template: src="{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
+  with_items:
+    - 21-loggly-application.conf
+    - 22-loggly-rsyslog_tls.conf
+  notify:
+    - restart_rsyslog
