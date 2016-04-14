@@ -26,7 +26,9 @@
 - name: Add Rsyslog configuration file
   template: src="{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
   with_items:
-    - 21-loggly-application.conf
-    - 22-loggly-rsyslog_tls.conf
+    - 20-loggly-tls.conf
+    - 21-loggly-templates.conf
+    - 22-loggly-nginx.conf
+    - 23-loggly-rsyslog_tls.conf
   notify:
     - restart_rsyslog
