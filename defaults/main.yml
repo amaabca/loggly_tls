@@ -14,3 +14,4 @@ loggly:
       - /var/log/nginx/access.log
     error_logs:
       - /var/log/nginx/error.log
+  action_queue_max_disk_space: 250m
