@@ -28,6 +28,9 @@
   notify:
     - restart_rsyslog
 
+- name: Disable $KLogPermitNonKernelFacility configuration (this option is deprecated)
+  lineinfile: dest=/etc/rsyslog.conf state=absent regexp='^\$KLogPermitNonKernelFacility'
+
 # using shell until file: state=absent works the same as below
 - name: Cleanup files that may have been left by other installations
   shell: rm -f /etc/rsyslog.d/*-loggly-*
