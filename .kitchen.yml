@@ -1,0 +1,20 @@
+---
+driver:
+  name: docker
+  # workaround for error: 'You must first install the Docker CLI tool http://www.docker.io/gettingstarted/'
+  use_sudo: false
+
+provisioner:
+  name: ansible_playbook
+  roles_path: ./
+  # so that everything under this folder gets install in /tmp/kitchen/roles/loggly_tls instead of /tmp/kitchen/roles
+  role_name: loggly_tls
+  hosts: test-kitchen
+  # tell kitchen-ansible not to install Chef
+  require_chef_for_busser: false
+
+platforms:
+  - name: ubuntu-14.04
+
+suites:
+  - name: default
