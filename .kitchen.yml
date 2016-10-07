@@ -10,8 +10,7 @@ provisioner:
   # so that everything under this folder gets install in /tmp/kitchen/roles/loggly_tls instead of /tmp/kitchen/roles
   role_name: loggly_tls
   hosts: test-kitchen
-  # tell kitchen-ansible not to install Chef
-  require_chef_for_busser: false
+  require_ruby_for_busser: true
 
 platforms:
   - name: ubuntu-14.04
