@@ -1,21 +1,20 @@
 # http://www.jeffgeerling.com/blog/2016/how-i-test-ansible-configuration-on-7-different-oses-docker
 ---
 language: ruby
-rvm: "2.3"
 sudo: required
+rvm: 2.3.0
+cache: bundler
 env:
   - distro: ubuntu1404
 services:
   - docker
-
+bundler_args: "--binstubs --without production"
 install:
   # Install ansible
   - gem install bundler
   - bundle install
-
 script:
   # Basic role syntax check
   - bundle exec kitchen test
-
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

@@ -8,11 +8,10 @@ loggly:
   rsyslog_ppa: ppa:adiscon/v8-stable
   application:
     tag: Rails
-    logs: []
+    logs:
+      - /var/log/kitchen.log
   nginx:
-    access_logs:
-      - /var/log/nginx/access.log
-    error_logs:
-      - /var/log/nginx/error.log
+    access_logs: []
+    error_logs: []
   action_queue_max_disk_space: 250m
   logrotate: true
