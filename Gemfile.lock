@@ -2,8 +2,13 @@ GEM
   remote: https://rubygems.org/
   specs:
     artifactory (2.5.0)
+    backticks (0.5.0)
+    busser (0.6.0)
+      thor
     coderay (1.1.1)
     diff-lcs (1.2.5)
+    docker (0.3.1)
+      backticks (~> 0.3)
     kitchen-ansible (0.45.4)
       net-ssh (~> 3.0)
       test-kitchen (~> 1.4)
@@ -70,6 +75,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  busser
+  docker
   kitchen-ansible
   kitchen-docker
   pry
@@ -77,7 +84,7 @@ DEPENDENCIES
   test-kitchen
 
 RUBY VERSION
-   ruby 2.2.3p173
+   ruby 2.3.0p0
 
 BUNDLED WITH
-   1.12.3
+   1.13.2
