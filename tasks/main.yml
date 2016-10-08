@@ -47,3 +47,6 @@
     - 23-loggly-rsyslog_tls.conf
   notify:
     - restart_rsyslog
+
+- name: Force a start of rsyslog
+  service: name=rsyslog state=started

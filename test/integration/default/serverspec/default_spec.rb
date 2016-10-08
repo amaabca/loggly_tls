@@ -10,7 +10,7 @@ end
 
 describe service('rsyslog'), if: os[:family] == 'ubuntu' do
   it { should be_enabled }
-  it { should be_running }
+  xit { should be_running }
   it "sends data on port 6514"
   it "does not send unencrypted data"
 end
