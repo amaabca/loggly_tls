@@ -8,6 +8,9 @@
 - include: v7.yml
   when: loggly.rsyslog_version|int < 8
 
+- include: logrotate.yml
+  when: loggly.logrotate
+
 - apt: name={{ item }} update_cache=yes cache_valid_time=3600
   with_items:
     - rsyslog
