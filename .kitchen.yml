@@ -10,7 +10,6 @@ provisioner:
   # so that everything under this folder gets install in /tmp/kitchen/roles/loggly_tls instead of /tmp/kitchen/roles
   role_name: loggly_tls
   hosts: test-kitchen
-  require_ruby_for_busser: true
 
 platforms:
   - name: ubuntu-14.04
