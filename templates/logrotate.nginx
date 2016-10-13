@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+/var/log/nginx/*.log {
+  daily
+  missingok
+  rotate 14
+  compress
+  delaycompress
+  notifempty
+  create 640 www-data adm
+  sharedscripts
+  postrotate
+    [ -f /var/run/nginx.pid ] && kill -USR1 $(cat /var/run/nginx.pid)
+    service rsyslog stop
+    rm /var/spool/rsyslog/imfile-state*
+    service rsyslog start
+  endscript
+}
