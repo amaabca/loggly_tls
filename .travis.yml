@@ -6,6 +6,7 @@ rvm: 2.3.0
 cache: bundler
 env:
   - distro: ubuntu1404
+  - distro: ubuntu1604  
 services:
   - docker
 bundler_args: "--binstubs --without production"
