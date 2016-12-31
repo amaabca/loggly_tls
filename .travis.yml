@@ -1,29 +1,53 @@
+# http://www.jeffgeerling.com/blog/2016/how-i-test-ansible-configuration-on-7-different-oses-docker
 ---
+language: ruby
+rvm:
+  - 2.3
+cache: bundler
+bundler_args: "--binstubs --without production"
+
 language: python
-python: "2.7"
-
-# Use the new container infrastructure
-sudo: false
-
-# Install ansible
-addons:
-  apt:
-    packages:
-    - python-pip
+python:
+  - 2.7
+env:
+  - distro: ubuntu1404
+services:
+  - docker
+sudo: required
 
 install:
-  # Install ansible
-  - pip install ansible
-
-  # Check ansible version
-  - ansible --version
-
-  # Create ansible.cfg with correct roles_path
+  - pip install -r requirements.txt
   - printf '[defaults]\nroles_path=../' >ansible.cfg
+  - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+
+  # Install ansible
+  - gem install bundler
+  - bundle install
 
 script:
   # Basic role syntax check
-  - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+  - bundle exec kitchen test
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
+
+  # http://www.jeffgeerling.com/blog/2016/how-i-test-ansible-configuration-on-7-different-oses-docker
+  ---
+  language: ruby
+  sudo: required
+  rvm: 2.3.0
+  cache: bundler
+  env:
+    - distro: ubuntu1404
+  services:
+    - docker
+  bundler_args: "--binstubs --without production"
+  install:
+    # Install ansible
+    - gem install bundler
+    - bundle install
+  script:
+    # Basic role syntax check
+    - bundle exec kitchen test
+  notifications:
+    webhooks: https://galaxy.ansible.com/api/v1/notifications/

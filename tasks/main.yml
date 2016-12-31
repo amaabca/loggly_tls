@@ -38,6 +38,9 @@
 - name: Cleanup files that may have been left by other installations
   shell: rm -f /etc/rsyslog.d/*-loggly-*
 
+- name: Create a file so that we can
+  file: path=/var/log/kitchen.log state=touch
+
 - name: Add Rsyslog configuration file
   template: src="{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
   with_items:
