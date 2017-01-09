@@ -1,0 +1,13 @@
+- name: Install Rsyslog version 8 with TLS
+  apt:
+    name: "{{ item }}={{ loggly.rsyslog_version }}"
+    state: latest
+    update_cache: yes
+    upgrade: safe
+    cache_valid_time: 3600
+  with_items:
+    - rsyslog
+    - rsyslog-gnutls
+
+- name: Disable $KLogPermitNonKernelFacility configuration (this option is deprecated)
+  lineinfile: dest=/etc/rsyslog.conf state=absent regexp='^\$KLogPermitNonKernelFacility'

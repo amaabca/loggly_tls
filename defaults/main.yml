@@ -5,7 +5,6 @@ loggly:
   certificate_file: logs-01.loggly.com_sha12.crt
   certificate_dest: /etc/rsyslog.d/keys/ca.d/
   rsyslog_version: 8
-  rsyslog_ppa: ppa:adiscon/v8-stable
   application:
     tag: Rails
     logs: []

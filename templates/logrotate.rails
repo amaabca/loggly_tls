@@ -2,12 +2,11 @@
 /var/log/rails/*.log {
   su root root
   daily
-  size 50M
   rotate 3
   missingok
   notifempty
   delaycompress
-  copytruncate
+  sharedscripts
   postrotate
     service rsyslog stop
     rm /var/spool/rsyslog/imfile-state*
