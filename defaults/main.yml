@@ -15,3 +15,4 @@ loggly:
       - /var/log/nginx/error.log
   action_queue_max_disk_space: 250m
   logrotate: true
+  refresh_unicorn: true
