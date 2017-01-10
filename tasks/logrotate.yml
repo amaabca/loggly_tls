@@ -1,11 +1,25 @@
 - name: Install logrotate
-  apt: pkg=logrotate state=present
+  apt:
+    pkg: logrotate
+    state: present
 
 - name: update nginx logrotate config
-  action: template src=logrotate.nginx dest=/etc/logrotate.d/nginx owner=root group=root
+  template:
+    src: logrotate.nginx
+    dest: /etc/logrotate.d/nginx
+    owner: root
+    group: root
 
 - name: update app logrotate config
-  action: template src=logrotate.rails dest=/etc/logrotate.d/rails owner=root group=root
+  template:
+    src: logrotate.rails
+    dest: /etc/logrotate.d/rails
+    owner: root
+    group: root
 
 - name: add rotation to daily cron
-  action: template src=logrotate.cron dest=/etc/cron.daily/logrotate owner=root group=root
+  template:
+    src: logrotate.cron
+    dest: /etc/cron.daily/logrotate
+    owner: root
+    group: root

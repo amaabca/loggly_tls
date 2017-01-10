@@ -1,12 +1,19 @@
-- name: Create cerfiticates folder If It Does Not Exist
-  file: path={{ loggly.certificate_dest }} state=directory
+- name: Create cerfiticates folder if it does not exist
+  file:
+    path: "{{ loggly.certificate_dest }}"
+    state: directory
 
 - name: Install loggly certificate bundle once https://en.wikipedia.org/wiki/Server_Name_Indication is supported
-  get_url: url={{ loggly.certificate_url }} dest={{ loggly.certificate_dest }}{{ loggly.certificate_file }}
+  get_url:
+    url: "{{ loggly.certificate_url }}"
+    dest: "{{ loggly.certificate_dest }}{{ loggly.certificate_file }}"
   ignore_errors: yes
 
 - name: Ensure wget is installed until SNI is supported
-  apt: name=wget update_cache=yes cache_valid_time=3600
+  apt:
+    name: wget
+    update_cache: yes
+    cache_valid_time: 3600
 
 - name: Use wget cause Python 2.7.6 doesn't support https://en.wikipedia.org/wiki/Server_Name_Indication
   command: wget -O {{ loggly.certificate_dest }}{{ loggly.certificate_file }} {{ loggly.certificate_url }}
@@ -18,7 +25,11 @@
   shell: rm -f /etc/rsyslog.d/*-loggly-*
 
 - name: Add Rsyslog configuration file
-  template: src="{{ item }}" dest="/etc/rsyslog.d/{{ item }}" owner=root group=root
+  template:
+    src: "{{ item }}"
+    dest: "/etc/rsyslog.d/{{ item }}"
+    owner: root
+    group: root
   with_items:
     - 21-loggly-base.conf
     - 22-loggly-application.conf
