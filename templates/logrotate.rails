@@ -7,15 +7,19 @@
   notifempty
   delaycompress
   sharedscripts
+  firstaction
+    service rsyslog stop
+  endscript
   postrotate
     # Unicorn - reopen all logfiles
     if [ {{ loggly.refresh_unicorn }} = True ]; then
       master_pid=$(ps aux | grep '[u]nicorn master' | awk '{print $2}')
       kill -USR1 $master_pid
     fi
-    # Restart Rsyslog - delete state for old files
-    service rsyslog stop
+    # Delete Rsyslog state for the rotated files
     rm /var/spool/rsyslog/imfile-state*
+  endscript
+  lastaction
     service rsyslog start
   endscript
 }
