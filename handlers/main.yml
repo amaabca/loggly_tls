@@ -1,6 +1,8 @@
 ---
 - name: restart_rsyslog
-  service: name=rsyslog state=restarted
+  service:
+    name: rsyslog
+    state: restarted
   notify: verify_rsylog_config
 
 - name: verify_rsylog_config

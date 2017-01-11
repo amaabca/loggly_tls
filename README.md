@@ -21,7 +21,7 @@ secrets:
 Dependencies
 ------------
 
-All configuration was done with rsyslogd 7.4.4.
+All configuration was done with rsyslogd 8.24.
 
 Example Playbook
 ----------------
@@ -37,6 +37,12 @@ How to include this role:
   roles:
     - loggly_tls
 ```
+
+Usage With Unicorn
+------------------
+
+By default, this playbook assumes that you are running [Unicorn](http://unicorn.bogomips.org) for an application server.
+To disable this functionality, set the `loggly.refresh_unicorn` variable to `false`.
 
 License
 -------

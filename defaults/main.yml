@@ -4,8 +4,7 @@ loggly:
   certificate_url: https://logdog.loggly.com/media/logs-01.loggly.com_sha12.crt
   certificate_file: logs-01.loggly.com_sha12.crt
   certificate_dest: /etc/rsyslog.d/keys/ca.d/
-  rsyslog_version: 8
-  rsyslog_ppa: ppa:adiscon/v8-stable
+  rsyslog_apt_repository: ppa:adiscon/v8-stable
   application:
     tag: Rails
     logs: []
@@ -16,3 +15,4 @@ loggly:
       - /var/log/nginx/error.log
   action_queue_max_disk_space: 250m
   logrotate: true
+  refresh_unicorn: true
