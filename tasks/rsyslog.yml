@@ -1,6 +1,14 @@
-- name: Install Rsyslog custom PPA for a consistent version
+- name: Install Rsyslog custom repository for v8 on Ubuntu <= 14.04
   apt_repository:
-    repo: "{{ loggly.rsyslog_ppa }}"
+    repo: "{{ loggly.rsyslog_apt_repository }}"
+    state: present
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version|float < 16.04
+
+- name: Cleanup older apt repositories on Ubuntu > 14.04
+  apt_repository:
+    repo: "{{ loggly.rsyslog_apt_repository }}"
+    state: absent
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version|float >= 16.04
 
 - name: Install Rsyslog with TLS
   apt:
