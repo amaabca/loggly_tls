@@ -6,8 +6,7 @@ loggly:
   certificate_dest: /etc/rsyslog.d/keys/ca.d/
   rsyslog_apt_repository: ppa:adiscon/v8-stable
   application:
-    tag: "{{ hostvars[inventory_hostname]['ec2_tag_app_name'] }}"
-    environment: "-{{ hostvars[inventory_hostname]['ec2_tag_app_environment'] }}"
+    tag: Rails
     logs: []
   nginx:
     access_logs:
