@@ -38,3 +38,8 @@
     dest: /etc/rsyslog.conf
     state: absent
     regexp: '^\$KLogPermitNonKernelFacility'
+
+- name: Set a larger max message size
+  lineinfile:
+    dest: /etc/rsyslog.conf
+    line: '$MaxMessageSize 250k'
