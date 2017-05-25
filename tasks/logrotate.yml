@@ -3,17 +3,10 @@
     pkg: logrotate
     state: present
 
-- name: update nginx logrotate config
+- name: update f5 logrotate config
   template:
-    src: logrotate.nginx
-    dest: /etc/logrotate.d/nginx
-    owner: root
-    group: root
-
-- name: update app logrotate config
-  template:
-    src: logrotate.rails
-    dest: /etc/logrotate.d/rails
+    src: logrotate.f5
+    dest: /etc/logrotate.d/f5
     owner: root
     group: root
 

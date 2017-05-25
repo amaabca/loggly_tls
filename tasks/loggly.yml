@@ -32,8 +32,7 @@
     group: root
   with_items:
     - 21-loggly-base.conf
-    - 22-loggly-application.conf
-    - 22-loggly-nginx.conf
+    - 22-loggly-f5.conf
     - 23-loggly-rsyslog_tls.conf
   notify:
     - restart_rsyslog

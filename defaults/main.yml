@@ -6,13 +6,10 @@ loggly:
   certificate_dest: /etc/rsyslog.d/keys/ca.d/
   rsyslog_apt_repository: ppa:adiscon/v8-stable
   application:
-    tag: Rails
+    tag: F5
     logs: []
-  nginx:
-    access_logs:
-      - /var/log/nginx/access.log
-    error_logs:
-      - /var/log/nginx/error.log
   action_queue_max_disk_space: 250m
   logrotate: true
   refresh_unicorn: true
+  f5:
+    logs: []

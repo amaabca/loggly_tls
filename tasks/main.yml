@@ -2,6 +2,9 @@
 - fail: msg="This role requires 'loggly.token'"
   when: loggly.token | trim == ''
 
+- name: Creates f5 log directory
+  file: path=/var/log/f5 state=directory mode=0775
+
 - include: logrotate.yml
   when: loggly.logrotate
 
