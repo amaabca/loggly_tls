@@ -8,6 +8,10 @@
     url: "{{ loggly.certificate_url }}"
     dest: "{{ loggly.certificate_dest }}{{ loggly.certificate_file }}"
   ignore_errors: yes
+  notify:
+    - restart_rsyslog
+  tags:
+   - cert
 
 - name: Ensure wget is installed until SNI is supported
   apt:
