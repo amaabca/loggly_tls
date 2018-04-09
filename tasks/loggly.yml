@@ -17,6 +17,8 @@
 
 - name: Use wget cause Python 2.7.6 doesn't support https://en.wikipedia.org/wiki/Server_Name_Indication
   command: wget -O {{ loggly.certificate_dest }}{{ loggly.certificate_file }} {{ loggly.certificate_url }}
+  tags:
+   - cert
   notify:
     - restart_rsyslog
 
