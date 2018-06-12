@@ -16,3 +16,4 @@ loggly:
   action_queue_max_disk_space: 250m
   logrotate: true
   refresh_unicorn: true
+  refresh_shoryuken: false
