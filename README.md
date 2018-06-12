@@ -44,6 +44,12 @@ Usage With Unicorn
 By default, this playbook assumes that you are running [Unicorn](http://unicorn.bogomips.org) for an application server.
 To disable this functionality, set the `loggly.refresh_unicorn` variable to `false`.
 
+Usage With Shoryuken
+------------------
+
+This playbook will also rotate [Shoryuken](https://github.com/phstc/shoryuken) logs.
+To enable this functionality, set the `loggly.refresh_shoryuken` variable to `true`.
+
 License
 -------
 
