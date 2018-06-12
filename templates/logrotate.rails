@@ -16,6 +16,10 @@
       master_pid=$(ps aux | grep '[u]nicorn master' | awk '{print $2}')
       kill -USR1 $master_pid
     fi
+    # Shoryuken - reopen all logfiles
+    if [ {{ loggly.refresh_shoryuken }} = True ]; then
+      service shoryuken restart
+    fi
     # Delete Rsyslog state for the rotated files
     rm /var/spool/rsyslog/imfile-state*
   endscript
