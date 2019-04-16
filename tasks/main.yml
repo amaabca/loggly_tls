@@ -1,5 +1,6 @@
 ---
-- fail: msg="This role requires 'loggly.token'"
+- fail:
+    msg: This role requires 'loggly.token'
   when: loggly.token | trim == ''
 
 - include: logrotate.yml

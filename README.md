@@ -21,7 +21,7 @@ secrets:
 Dependencies
 ------------
 
-All configuration was done with rsyslogd 8.24.
+All configuration was done with rsyslogd v8.32.0.
 
 Example Playbook
 ----------------
