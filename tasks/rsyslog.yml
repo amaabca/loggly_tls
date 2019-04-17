@@ -1,14 +1,13 @@
 - name: Purging previous Rsyslog versions
   apt:
-    name: "{{ item }}"
+    name:
+      - rsyslog-gnutls
+      - rsyslog
     state: absent
     purge: yes
     autoremove: yes
     update_cache: yes
     cache_valid_time: 0
-  with_items:
-    - rsyslog-gnutls
-    - rsyslog
 
 - name: Install Rsyslog custom repository for v8 on Ubuntu <= 14.04
   apt_repository:
@@ -24,14 +23,13 @@
 
 - name: Install Rsyslog with TLS
   apt:
-    name: "{{ item }}"
+    name:
+      - rsyslog-gnutls
+      - rsyslog
     state: latest
     update_cache: yes
     force: yes
     cache_valid_time: 0
-  with_items:
-    - rsyslog-gnutls
-    - rsyslog
 
 - name: Disable $KLogPermitNonKernelFacility configuration (this option is deprecated)
   lineinfile:
